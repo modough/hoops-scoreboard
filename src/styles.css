@@ -1,0 +1,483 @@
+@import "tailwindcss";
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * Arena Board design system.
+ *
+ * A dark-only, projector-first board: frosted glass panels floating over
+ * blurred coloured light sources, with LED-style monospace digits that glow.
+ * Every colour lives here as an oklch token; components only reference
+ * semantic names (bg-frost, text-faint, tone-home, ring-hairline).
+ */
+
+@theme inline {
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-sans: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-ring-offset-background: var(--background);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+
+  /* Board surfaces + ink */
+  --color-board: var(--board);
+  --color-frost: var(--frost);
+  --color-frost-2: var(--frost-2);
+  --color-frost-3: var(--frost-3);
+  --color-well: var(--well);
+  --color-hairline: var(--hairline);
+  --color-hairline-soft: var(--hairline-soft);
+  --color-hairline-strong: var(--hairline-strong);
+  --color-faint: var(--ink-faint);
+  --color-soft: var(--ink-soft);
+  --color-bright: var(--ink-bright);
+
+  /* Match tones */
+  --color-home: var(--home);
+  --color-away: var(--away);
+  --color-live: var(--live);
+
+  --animate-rise: rise 0.7s cubic-bezier(0.32, 0.72, 0, 1) both;
+  --animate-flick: seg-flick 4.5s steps(1, end) infinite;
+  --animate-run-glow: run-glow 1.9s ease-in-out infinite;
+  --animate-shot-pulse: shot-pulse 0.9s ease-in-out infinite;
+  --animate-shot-shake: shot-shake 0.14s linear infinite;
+  --animate-poss: poss 1.3s ease-in-out infinite;
+  --animate-halo: halo 6s ease-in-out infinite;
+}
+
+:root {
+  --radius: 0.75rem;
+
+  --board: oklch(0.145 0 0);
+  --background: var(--board);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.21 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.19 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: var(--home);
+  --primary-foreground: oklch(0.145 0 0);
+  --secondary: oklch(1 0 0 / 8%);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(1 0 0 / 7%);
+  --muted-foreground: oklch(1 0 0 / 55%);
+  --accent: oklch(1 0 0 / 10%);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: var(--away);
+  --destructive-foreground: oklch(0.985 0 0);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 14%);
+  --ring: var(--home);
+
+  /* Frosted glass + ink */
+  --frost: oklch(1 0 0 / 6%);
+  --frost-2: oklch(1 0 0 / 9%);
+  --frost-3: oklch(1 0 0 / 14%);
+  --well: oklch(0 0 0 / 22%);
+  --hairline: oklch(1 0 0 / 10%);
+  --hairline-soft: oklch(1 0 0 / 6%);
+  --hairline-strong: oklch(1 0 0 / 18%);
+  --ink-faint: oklch(1 0 0 / 40%);
+  --ink-soft: oklch(1 0 0 / 62%);
+  --ink-bright: oklch(1 0 0 / 88%);
+
+  /* Match tones: home amber, away rose, live green */
+  --home: oklch(0.769 0.188 70.08);
+  --away: oklch(0.645 0.246 16.439);
+  --live: oklch(0.723 0.219 149.579);
+  --undo: oklch(74.5% 0.14602 231.991);
+  --home-tone: oklch(0.769 0.188 70.08 / 55%);
+  --away-tone: oklch(0.645 0.246 16.439 / 55%);
+  --live-tone: oklch(0.723 0.219 149.579 / 50%);
+  --white-tone: oklch(1 0 0 / 45%);
+
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes seg-flick {
+  0%,
+  100% {
+    opacity: 0.72;
+  }
+  12% {
+    opacity: 1;
+  }
+  45% {
+    opacity: 0.6;
+  }
+  72% {
+    opacity: 1;
+  }
+}
+
+@keyframes run-glow {
+  0%,
+  100% {
+    text-shadow:
+      0 0 12px var(--tone),
+      0 0 30px var(--tone);
+  }
+  50% {
+    text-shadow:
+      0 0 20px var(--tone),
+      0 0 52px var(--tone);
+  }
+}
+
+@keyframes shot-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    text-shadow:
+      0 0 14px var(--tone),
+      0 0 34px var(--tone);
+  }
+  50% {
+    transform: scale(1.05);
+    text-shadow:
+      0 0 26px var(--tone),
+      0 0 58px var(--tone);
+  }
+}
+
+@keyframes shot-shake {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  25% {
+    translate: 1px -1px;
+  }
+  50% {
+    translate: -1px 1px;
+  }
+  75% {
+    translate: 1px 1px;
+  }
+}
+
+@keyframes poss {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes halo {
+  0%,
+  100% {
+    opacity: 0.75;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html,
+  body {
+    background-color: var(--color-board);
+    color: var(--color-foreground);
+  }
+
+  body {
+    font-family: var(--font-mono);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background: var(--home);
+    color: var(--board);
+  }
+
+  input:focus-visible,
+  button:focus-visible,
+  select:focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+}
+
+@layer components {
+  /* Tone = digit colour + its glow colour, so keyframes can share --tone. */
+  .tone-home {
+    color: var(--home);
+    --tone: var(--home-tone);
+  }
+  .tone-away {
+    color: var(--away);
+    --tone: var(--away-tone);
+  }
+  .tone-live {
+    color: var(--live);
+    --tone: var(--live-tone);
+  }
+  .tone-white {
+    color: var(--foreground);
+    --tone: var(--white-tone);
+  }
+
+  .glow {
+    text-shadow: 0 0 24px var(--tone);
+  }
+
+  /* Two animations on one element: one shorthand so nothing is overridden. */
+  .shot-critical {
+    animation:
+      shot-pulse 0.9s ease-in-out infinite,
+      shot-shake 0.14s linear infinite;
+  }
+
+  .digit-score {
+    font-size: clamp(5rem, 14vw, 14rem);
+    line-height: 0.8;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.02em;
+  }
+  .digit-game {
+    font-size: clamp(3.25rem, 8.5vw, 7.5rem);
+    line-height: 0.85;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.01em;
+  }
+  .digit-shot {
+    font-size: clamp(3.25rem, 9.5vw, 8.5rem);
+    line-height: 0.85;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .panel {
+    background: var(--frost);
+    box-shadow:
+      inset 0 1px 0 oklch(1 0 0 / 6%),
+      0 24px 60px -30px oklch(0 0 0 / 80%);
+  }
+}
+
+/* Phone orientation layouts: portrait remains comfortably scrollable; a
+   rotated phone becomes a compact, full-board three-column controller. */
+@media (orientation: landscape) and (max-width: 1023px) {
+  html,
+  body {
+    overflow: hidden;
+  }
+
+  .board-root,
+  .board-shell {
+    height: 100dvh;
+    min-height: 0;
+  }
+
+  .board-shell {
+    padding: 0.5rem;
+  }
+
+  .scoreboard-topbar {
+    min-height: 2.25rem;
+    padding: 0.35rem 0.65rem;
+  }
+
+  .board-stage {
+    grid-template-columns: minmax(0, 1fr) minmax(9rem, 0.72fr) minmax(0, 1fr);
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+  }
+
+  .team-panel {
+    border-radius: 1rem;
+    padding: 0.6rem;
+  }
+
+  .team-heading {
+    margin-top: 0.2rem;
+  }
+
+  .team-name {
+    max-width: 75%;
+    font-size: 0.9rem;
+  }
+
+  .team-score {
+    margin-top: 0.3rem;
+    font-size: clamp(9rem, 17vh, 7.5rem);
+  }
+
+  .team-actions {
+    gap: 0.35rem;
+    padding-top: 0.35rem;
+  }
+
+  .team-actions button {
+    min-height: 2rem;
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+  }
+
+  .clock-spine {
+    gap: 0.4rem;
+  }
+
+  .game-clock-panel,
+  .shot-clock-panel,
+  .possession-panel {
+    border-radius: 1rem;
+  }
+
+  .game-clock-panel {
+    padding: 0.35rem;
+  }
+
+  .game-clock {
+    margin-top: 0;
+    font-size: clamp(2rem, 11vh, 3.4rem);
+  }
+
+  .clock-status {
+    margin-top: 0.2rem;
+  }
+
+  .shot-clock-panel {
+    padding: 0.3rem 0.5rem;
+  }
+
+  .shot-clock {
+    font-size: clamp(2.25rem, 12vh, 3.7rem);
+  }
+
+  .possession-panel {
+    gap: 0.75rem;
+    padding: 0.25rem 0.5rem;
+  }
+
+  .control-bar {
+    flex-wrap: nowrap;
+    gap: 0.3rem;
+    margin-top: 0.5rem;
+    padding: 0.35rem 0.5rem;
+    border-radius: 1rem;
+  }
+
+  .control-bar button {
+    min-width: 0;
+    padding: 0.35rem 0.55rem;
+    font-size: 0.625rem;
+  }
+
+  .control-bar p {
+    display: none;
+  }
+
+  .settings-dialog {
+    max-height: calc(100dvh - 1rem);
+    padding: 0.75rem;
+  }
+
+  .settings-dialog > label {
+    margin-top: 0.5rem;
+  }
+
+  .settings-dialog > div:nth-of-type(2) {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+  }
+
+  .settings-dialog > p {
+    display: none;
+  }
+}
+
+@media (orientation: portrait) and (max-width: 639px) {
+  .board-root {
+    overflow-y: auto;
+  }
+
+  .scoreboard-topbar .sound-control {
+    display: none;
+  }
+
+  .board-stage {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .team-score {
+    font-size: clamp(4.5rem, 29vw, 7rem);
+  }
+
+  .control-bar button {
+    flex: 1 1 calc(33.333% - 0.5rem);
+    min-width: 5.5rem;
+    padding-inline: 0.5rem;
+    font-size: 0.7rem;
+  }
+
+  .control-bar p {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-rise,
+  .animate-flick,
+  .animate-run-glow,
+  .animate-poss,
+  .animate-halo,
+  .shot-critical {
+    animation: none;
+  }
+}
