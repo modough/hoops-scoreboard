@@ -14,6 +14,7 @@ import {
   type Settings,
   type Side,
 } from "@/lib/scoreboard";
+import ball from "../../assets/ball.png";
 
 export function Scoreboard() {
   const { state, dispatch, undo, canUndo, soundOn, toggleSound, buzzer } = useScoreboard();
@@ -80,12 +81,10 @@ export function Scoreboard() {
 
         <ControlBar
           state={state}
-
           onToggleRun={() => dispatch({ type: "toggleRun" })}
           onResetShot={(seconds) => dispatch({ type: "resetShot", seconds })}
           onSwapPossession={() => dispatch({ type: "swapPossession" })}
           onBuzzer={buzzer}
-
           onNewGame={() => dispatch({ type: "newGame" })}
         />
       </div>
@@ -109,25 +108,15 @@ interface TopBarProps {
 }
 
 function TopBar({ state, soundOn, onToggleSound, onOpenSetup }: TopBarProps) {
-  const status = state.gameOver
-    ? { label: "Final", className: "bg-away/15 text-away ring-away/30", dot: "bg-away" }
-    : state.running
-      ? {
-          label: "Live",
-          className: "bg-live/15 text-live ring-live/30",
-          dot: "animate-pulse bg-live",
-        }
-      : { label: "Paused", className: "bg-frost-2 text-soft ring-hairline", dot: "bg-soft" };
-
   return (
     <header className="scoreboard-topbar panel grid grid-cols-[minmax(0,1fr)_auto] animate-rise items-center gap-2 rounded-2xl px-3 py-2.5 ring-1 ring-hairline backdrop-blur-xl sm:px-5 sm:py-3">
       <div className="flex min-w-0 items-center gap-3">
         <span className="flex items-center gap-2">
-          <span className="grid size-7 place-items-center rounded-lg bg-home/15 ring-1 ring-home/30">
-            <span className="size-2 rounded-full bg-home" />
+          <span className="grid size-5 place-items-center rounded-lg bg-home/15 ring-1 ring-home/30">
+            <img src={ball} alt="Basketball" className=" object-cover" />
           </span>
           <span className="hidden text-[11px] font-semibold uppercase tracking-[0.3em] text-bright md:inline">
-            Arena Board
+            hoopscore Board
           </span>
         </span>
         <span className="rounded-full bg-frost-2 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-soft ring-1 ring-hairline">
@@ -170,7 +159,6 @@ function TopBar({ state, soundOn, onToggleSound, onOpenSetup }: TopBarProps) {
         >
           Setup
         </button>
-       
       </div>
     </header>
   );

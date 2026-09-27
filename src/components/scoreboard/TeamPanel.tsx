@@ -24,14 +24,13 @@ export function TeamPanel({
   onTimeout,
   onRename,
   onUndo,
-  canUndo
+  canUndo,
 }: TeamPanelProps) {
- 
   const team = state.teams[side];
   const isHome = side === "home";
   const bonus = isBonus(state, side);
   const undoBtnStyle =
-  "disabled:pointer-events-none disabled:opacity-40 rounded-xl bg-[oklch(74.5%_0.14602_231.991)] px-4 py-2 text-sm font-bold uppercase tracking-[0.15em] text-board ring-1 ring-hairline transition-all hover:bg-frost-3 hover:text-bright";
+    "disabled:pointer-events-none disabled:opacity-40 rounded-xl bg-[oklch(74.5%_0.14602_231.991)] px-4 py-2 text-sm font-bold uppercase tracking-[0.15em] text-board ring-1 ring-hairline transition-all hover:bg-frost-3 hover:text-bright";
 
   return (
     <section
@@ -42,31 +41,21 @@ export function TeamPanel({
       style={{ animationDelay: delay }}
       aria-label={`${isHome ? "Home" : "Away"} team`}
     >
-      <div className="flex items-center justify-between gap-3">
+      {bonus && (
         <span
           className={cn(
-            "text-[11px] font-semibold uppercase tracking-[0.3em]",
-            isHome ? "text-home" : "text-away",
+            "rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] ring-1",
+            isHome ? "bg-home/15 text-home ring-home/25" : "bg-away/15 text-away ring-away/25",
           )}
         >
-          {isHome ? "Home" : "Away"}
+          Bonus
         </span>
-        {bonus && (
-          <span
-            className={cn(
-              "rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] ring-1",
-              isHome ? "bg-home/15 text-home ring-home/25" : "bg-away/15 text-away ring-away/25",
-            )}
-          >
-            Bonus
-          </span>
-        )}
-      </div>
+      )}
 
       <div
         className={cn(
-          "team-heading mt-2 flex min-w-0 items-baseline gap-2 sm:mt-3",
-          isHome && "flex-row-reverse",
+          "team-heading mt-2 flex min-w-0 items-baseline gap-2 sm:mt-3"
+          
         )}
       >
         <EditableText
@@ -94,7 +83,7 @@ export function TeamPanel({
           type="button"
           onClick={onFoul}
           title="Record a team foul"
-          className="rounded-xl bg-well px-3 py-2 text-left ring-1 ring-hairline-soft transition-colors hover:bg-frost-2"
+          className="flex items-center justify-between max-h-10 rounded-xl bg-well px-3 py-2 text-left ring-1 ring-hairline-soft transition-colors hover:bg-frost-2"
         >
           <span className="block text-[10px] uppercase tracking-[0.2em] text-faint">Fouls</span>
           <span
@@ -110,23 +99,28 @@ export function TeamPanel({
           type="button"
           onClick={onTimeout}
           title="Call a timeout"
-          className="rounded-xl bg-well px-3 py-2 text-right ring-1 ring-hairline-soft transition-colors hover:bg-frost-2"
+          className="flex items-center justify-between max-h-10 rounded-xl bg-well px-3 py-2 text-right ring-1 ring-hairline-soft transition-colors hover:bg-frost-2"
         >
           <span className="block text-[10px] uppercase tracking-[0.2em] text-faint">Timeouts</span>
           <span className="text-lg font-medium text-bright">{team.timeouts}</span>
         </button>
 
         <div className="col-span-2 grid grid-cols-3 gap-2">
-          <button type="button" onClick={onUndo} disabled={!canUndo} className={undoBtnStyle}>
-        -1
-      </button>
+          <button type="button" onClick={onUndo} disabled={!canUndo} className={cn(
+                "rounded-xl py-2 text-xl font-semibold uppercase tracking-[0.15em] ring-1 transition-all active:scale-[0.97]",
+                isHome
+                  ? "bg-home/10 text-home ring-home/25 hover:bg-home/20"
+                  : "bg-away/10 text-away ring-away/25 hover:bg-away/20",
+              )}>
+            -1
+          </button>
           {[1, 3].map((points) => (
             <button
               key={points}
               type="button"
               onClick={() => onScore(points)}
               className={cn(
-                "rounded-xl py-2 text-sm font-semibold uppercase tracking-[0.15em] ring-1 transition-all active:scale-[0.97]",
+                "rounded-xl py-2 text-xl font-semibold uppercase tracking-[0.15em] ring-1 transition-all active:scale-[0.97]",
                 isHome
                   ? "bg-home/10 text-home ring-home/25 hover:bg-home/20"
                   : "bg-away/10 text-away ring-away/25 hover:bg-away/20",

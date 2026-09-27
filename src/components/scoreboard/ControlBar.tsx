@@ -18,10 +18,8 @@ interface ControlBarProps {
 export function ControlBar({
   state,
   onToggleRun,
-  onResetShot,
   onSwapPossession,
   onBuzzer,
-
   onNewGame,
 }: ControlBarProps) {
   return (
@@ -55,16 +53,6 @@ export function ControlBar({
         Buzzer
       </button>
 
-      <button type="button" onClick={() => onResetShot()} className={secondary}>
-        Reset {state.settings.shotClockSec}
-      </button>
-      <button
-        type="button"
-        onClick={() => onResetShot(state.settings.backcourtShotSec)}
-        className={secondary}
-      >
-        Reset {state.settings.backcourtShotSec}
-      </button>
       <button type="button" onClick={onSwapPossession} className={secondary}>
         Possession
       </button>
@@ -72,10 +60,6 @@ export function ControlBar({
       <button type="button" onClick={onNewGame} className={secondary}>
         New game
       </button>
-
-      <p className="w-full pt-1 text-center text-[10px] uppercase tracking-[0.18em] text-faint">
-        {SCORER_KEYS.join(" · ")}
-      </p>
     </div>
   );
 }

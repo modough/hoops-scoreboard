@@ -2,7 +2,6 @@ import { cn } from "@/lib/utils";
 import {
   formatGameClock,
   formatShotClock,
-  shotClockIsCritical,
   type ScoreboardState,
 } from "@/lib/scoreboard";
 
@@ -96,7 +95,7 @@ export function ClockSpine({ state, onToggleRun, onSwapPossession }: ClockSpineP
             homeHasBall ? "text-faint" : "text-away",
           )}
         >
-          {state.teams.away.abbr}
+          {state.teams.home.name}
         </span>
         <span className={cn("animate-poss text-2xl", homeHasBall ? "tone-home" : "tone-away")}>
           {homeHasBall ? "▶" : "◀"}
@@ -107,7 +106,7 @@ export function ClockSpine({ state, onToggleRun, onSwapPossession }: ClockSpineP
             homeHasBall ? "text-home" : "text-faint",
           )}
         >
-          {state.teams.home.abbr}
+          {state.teams.away.name}
         </span>
       </button>
     </div>
