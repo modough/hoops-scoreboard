@@ -170,15 +170,7 @@ function TopBar({ state, soundOn, onToggleSound, onOpenSetup }: TopBarProps) {
         >
           Setup
         </button>
-        <span
-          className={cn(
-            "inline-flex items-center gap-2 rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.15em] ring-1",
-            status.className,
-          )}
-        >
-          <span className={cn("size-1.5 rounded-full", status.dot)} />
-          {status.label}
-        </span>
+       
       </div>
     </header>
   );
